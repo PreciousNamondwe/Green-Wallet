@@ -5,6 +5,8 @@ import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { Feather } from '@expo/vector-icons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -20,6 +22,7 @@ export default function TabLayout() {
           left: 16,
           right: 16,
           height: 60,
+          borderRadius:20,
           backgroundColor:'#F0FDF4',
           borderTopWidth: 0,
           shadowColor: '#000',
@@ -42,9 +45,26 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={'#22C55E'} />,
+          tabBarIcon: ({ color }) => <IconSymbol size={25} name="house.fill" color={'#22C55E'} />,
         }}
       />
+
+      <Tabs.Screen
+        name="wallet"
+        options={{
+          title: 'wallet',
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="wallet-bifold-outline" size={25} color={'#22C55E'} />,
+        }}
+      />
+
+      <Tabs.Screen
+        name="activity"
+        options={{
+          title: 'Activity',
+          tabBarIcon: ({ color }) => <Feather size={25} name="pie-chart" color={'#22C55E'} />,
+        }}
+      />
+      
       <Tabs.Screen
         name="explore"
         options={{

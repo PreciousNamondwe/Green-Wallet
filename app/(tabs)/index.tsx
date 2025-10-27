@@ -8,10 +8,8 @@ import {
   Dimensions,
   StatusBar 
 } from 'react-native';
-import { Image } from 'expo-image';
 import { Feather, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -25,7 +23,7 @@ export default function HomeScreen() {
   const cards = [
     { 
       id: 1, 
-      number: '•••• 7812', 
+      number: 'xxxx xxxx 7812', 
       balance: 'MWK8,450.75', 
       type: 'operating', 
       currency: 'MWK',
@@ -33,7 +31,7 @@ export default function HomeScreen() {
     },
     { 
       id: 2, 
-      number: '•••• 4523', 
+      number: 'xxxx xxxx 4523', 
       balance: 'MWK12,920.30', 
       type: 'savings', 
       currency: 'MWK',
@@ -41,7 +39,7 @@ export default function HomeScreen() {
     },
     { 
       id: 3, 
-      number: '•••• 1897', 
+      number: 'xxxx xxxx 1897', 
       balance: 'MWK5,245.50', 
       type: 'loan', 
       currency: 'MWK',
@@ -92,94 +90,7 @@ export default function HomeScreen() {
       description: 'Risk Protection',
       iconLib: FontAwesome5
     },
-    { 
-      icon: 'leaf', 
-      label: 'Sustainability', 
-      color: '#84CC16', 
-      description: 'Green Credits',
-      iconLib: FontAwesome5
-    },
-    { 
-      icon: 'hand-holding-usd', 
-      label: 'Grants', 
-      color: '#EC4899', 
-      description: 'Govt Programs',
-      iconLib: FontAwesome5
-    },
   ];
-
-  const farmTransactions = [
-    { 
-      id: 1, 
-      name: 'Seed Co-op Purchase', 
-      amount: -1250.00, 
-      date: 'Today', 
-      type: 'inputs', 
-      icon: 'seedling',
-      category: 'Seeds'
-    },
-    { 
-      id: 2, 
-      name: 'Corn Harvest Sale', 
-      amount: 8450.00, 
-      date: 'Yesterday', 
-      type: 'income', 
-      icon: 'wheat',
-      category: 'Crop Sales'
-    },
-    { 
-      id: 3, 
-      name: 'Equipment Maintenance', 
-      amount: -320.75, 
-      date: 'Oct 25', 
-      type: 'maintenance', 
-      icon: 'tools',
-      category: 'Machinery'
-    },
-    { 
-      id: 4, 
-      name: 'Organic Fertilizer', 
-      amount: -890.50, 
-      date: 'Oct 24', 
-      type: 'inputs', 
-      icon: 'leaf',
-      category: 'Fertilizer'
-    },
-  ];
-
-  const cropPortfolio = [
-    { 
-      name: 'Corn Field A', 
-      value: 28450.75, 
-      change: '+15.2%', 
-      trend: 'up',
-      maturity: '45 days',
-      area: '50 acres'
-    },
-    { 
-      name: 'Soybean Field B', 
-      value: 18720.25, 
-      change: '+8.7%', 
-      trend: 'up',
-      maturity: '60 days',
-      area: '35 acres'
-    },
-    { 
-      name: 'Organic Wheat', 
-      value: 12450.50, 
-      change: '+12.1%', 
-      trend: 'up',
-      maturity: '30 days',
-      area: '25 acres'
-    },
-  ];
-
-  const weatherData = {
-    temperature: '72°F',
-    condition: 'Sunny',
-    rainfall: '0.2" this week',
-    soilMoisture: 'Optimal'
-  };
 
   const toggleBalanceVisibility = () => {
     Animated.spring(balanceVisible, {
@@ -353,97 +264,6 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* Farm Transactions */}
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <ThemedText style={styles.sectionTitle}>Recent Farm Transactions</ThemedText>
-            <TouchableOpacity>
-              <ThemedText style={styles.viewAllText}>View All</ThemedText>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.transactionsList}>
-            {farmTransactions.map((transaction) => (
-              <TouchableOpacity key={transaction.id} style={styles.transactionItem}>
-                <View style={[
-                  styles.transactionIconContainer,
-                  { backgroundColor: transaction.amount > 0 ? '#DCFCE7' : '#FEF3C7' }
-                ]}>
-                  <FontAwesome5 
-                    name={transaction.icon} 
-                    size={16} 
-                    color={transaction.amount > 0 ? '#16A34A' : '#D97706'} 
-                  />
-                </View>
-                <View style={styles.transactionDetails}>
-                  <ThemedText style={styles.transactionName}>{transaction.name}</ThemedText>
-                  <ThemedText style={styles.transactionCategory}>{transaction.category}</ThemedText>
-                </View>
-                <View style={styles.transactionAmountContainer}>
-                  <ThemedText 
-                    style={[
-                      styles.transactionAmount,
-                      transaction.amount > 0 ? styles.positiveAmount : styles.negativeAmount
-                    ]}
-                  >
-                    {transaction.amount > 0 ? '+' : ''}{transaction.amount.toLocaleString('en-US', {
-                      style: 'currency',
-                      currency: 'USD'
-                    })}
-                  </ThemedText>
-                  <ThemedText style={styles.transactionDate}>{transaction.date}</ThemedText>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
-
-        {/* Crop Portfolio */}
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <ThemedText style={styles.sectionTitle}>Crop Portfolio</ThemedText>
-            <TouchableOpacity>
-              <ThemedText style={styles.viewAllText}>Analytics</ThemedText>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.investmentsGrid}>
-            {cropPortfolio.map((crop, index) => (
-              <View key={index} style={styles.investmentCard}>
-                <View style={styles.investmentHeader}>
-                  <ThemedText style={styles.investmentName}>{crop.name}</ThemedText>
-                  <Feather 
-                    name={crop.trend === 'up' ? 'trending-up' : 'trending-down'} 
-                    size={16} 
-                    color={crop.trend === 'up' ? '#10B981' : '#EF4444'} 
-                  />
-                </View>
-                <ThemedText style={styles.investmentValue}>
-                  {crop.value.toLocaleString('en-US', {
-                    style: 'currency',
-                    currency: 'USD'
-                  })}
-                </ThemedText>
-                <ThemedText 
-                  style={[
-                    styles.investmentChange,
-                    styles.positiveChange
-                  ]}
-                >
-                  {crop.change}
-                </ThemedText>
-                <View style={styles.cropDetails}>
-                  <View style={styles.cropDetail}>
-                    <Feather name="clock" size={12} color="#64748B" />
-                    <ThemedText style={styles.cropDetailText}>{crop.maturity}</ThemedText>
-                  </View>
-                  <View style={styles.cropDetail}>
-                    <Feather name="map-pin" size={12} color="#64748B" />
-                    <ThemedText style={styles.cropDetailText}>{crop.area}</ThemedText>
-                  </View>
-                </View>
-              </View>
-            ))}
-          </View>
-        </View>
 
         {/* Sustainability Banner */}
         <TouchableOpacity style={styles.premiumBanner}>
@@ -463,33 +283,6 @@ export default function HomeScreen() {
             </View>
           </LinearGradient>
         </TouchableOpacity>
-
-        {/* Market Prices */}
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <ThemedText style={styles.sectionTitle}>Market Prices</ThemedText>
-            <TouchableOpacity>
-              <ThemedText style={styles.viewAllText}>Live Markets</ThemedText>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.marketGrid}>
-            <View style={styles.marketItem}>
-              <ThemedText style={styles.marketCrop}>Corn</ThemedText>
-              <ThemedText style={styles.marketPrice}>$4.25/bu</ThemedText>
-              <ThemedText style={styles.marketChange}>+2.3%</ThemedText>
-            </View>
-            <View style={styles.marketItem}>
-              <ThemedText style={styles.marketCrop}>Soybeans</ThemedText>
-              <ThemedText style={styles.marketPrice}>$12.80/bu</ThemedText>
-              <ThemedText style={styles.marketChange}>+1.7%</ThemedText>
-            </View>
-            <View style={styles.marketItem}>
-              <ThemedText style={styles.marketCrop}>Wheat</ThemedText>
-              <ThemedText style={styles.marketPrice}>$6.45/bu</ThemedText>
-              <ThemedText style={styles.marketChange}>-0.8%</ThemedText>
-            </View>
-          </View>
-        </View>
       </ScrollView>
     </View>
   );
@@ -499,6 +292,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F0FDF4',
+    
   },
   header: {
     paddingTop: 60,
@@ -692,52 +486,6 @@ const styles = StyleSheet.create({
     color: '#64748B',
     textAlign: 'center',
   },
-  transactionsList: {
-    backgroundColor: '#FFF',
-    borderRadius: 16,
-    padding: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  transactionItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
-  },
-  transactionIconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  transactionDetails: {
-    flex: 1,
-  },
-  transactionName: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#1E293B',
-    marginBottom: 2,
-  },
-  transactionCategory: {
-    fontSize: 12,
-    color: '#94A3B8',
-  },
-  transactionAmountContainer: {
-    alignItems: 'flex-end',
-  },
-  transactionAmount: {
-    fontSize: 14,
-    fontWeight: '700',
-    marginBottom: 2,
-  },
   positiveAmount: {
     color: '#059669',
   },
@@ -787,26 +535,11 @@ const styles = StyleSheet.create({
   positiveChange: {
     color: '#059669',
   },
-  cropDetails: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 8,
-  },
-  cropDetail: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  cropDetailText: {
-    fontSize: 10,
-    color: '#64748B',
-    marginLeft: 4,
-  },
   premiumBanner: {
     marginHorizontal: 20,
-    marginBottom: 24,
+    marginBottom: 70,
     borderRadius: 20,
     overflow: 'hidden',
-    shadowColor: '#000',
     shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.1,
     shadowRadius: 20,
@@ -833,38 +566,5 @@ const styles = StyleSheet.create({
   premiumDescription: {
     color: 'rgba(255,255,255,0.8)',
     fontSize: 12,
-  },
-  marketGrid: {
-    flexDirection: 'row',
-    gap: 12,
-  },
-  marketItem: {
-    flex: 1,
-    backgroundColor: '#FFF',
-    borderRadius: 12,
-    padding: 12,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  marketCrop: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#64748B',
-    marginBottom: 4,
-  },
-  marketPrice: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: '#064E3B',
-    marginBottom: 2,
-  },
-  marketChange: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: '#059669',
   },
 });
