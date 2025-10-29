@@ -39,13 +39,14 @@ export default function TabLayout() {
         },
         tabBarIconStyle:{
           top:5,
+          color:'#22C55E',
         },
       }}>
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={25} name="house.fill" color={'#22C55E'} />,
+          tabBarIcon: ({ color }) => <IconSymbol size={25} name="house.fill" color={color} />,
         }}
       />
 
@@ -53,7 +54,7 @@ export default function TabLayout() {
         name="wallet"
         options={{
           title: 'wallet',
-          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="wallet-bifold-outline" size={25} color={'#22C55E'} />,
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="wallet-bifold-outline" size={25} color={color} />,
         }}
       />
 
@@ -61,15 +62,15 @@ export default function TabLayout() {
         name="activity"
         options={{
           title: 'Activity',
-          tabBarIcon: ({ color }) => <Feather size={25} name="pie-chart" color={'#22C55E'} />,
+          tabBarIcon: ({ color }) => <Feather size={25} name="pie-chart" color={color} />,
         }}
       />
       
       <Tabs.Screen
-        name="explore"
+        name="user"
         options={{
           title: 'User',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={'#22C55E'} />,
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
         }}
       />
     </Tabs>
