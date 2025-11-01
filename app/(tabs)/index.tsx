@@ -19,7 +19,6 @@ export default function HomeScreen() {
   const scrollX = useRef(new Animated.Value(0)).current;
   const balanceVisible = useRef(new Animated.Value(1)).current;
 
-  // Agricultural-focused data
   const cards = [
     { 
       id: 1, 
