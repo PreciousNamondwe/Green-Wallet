@@ -18,22 +18,22 @@ import { useRouter } from 'expo-router';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
-// Default credentials that can be managed from control center
-const DEFAULT_CREDENTIALS = {
-  email: 'farmer@greenwallet.mw',
-  password: 'farmers123'
-};
-
 export default function LoginScreen() {
-  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const onSignInPress = async () => {
-    if (!email || !password) {
-      Alert.alert('Error', 'Please enter both email and password');
+    if (!phoneNumber || !password) {
+      Alert.alert('Error', 'Please enter both phone number and password');
+      return;
+    }
+
+    // Basic phone number validation
+    if (phoneNumber.length < 10) {
+      Alert.alert('Error', 'Please enter a valid phone number');
       return;
     }
 
@@ -41,13 +41,21 @@ export default function LoginScreen() {
 
     // Simulate API call delay
     setTimeout(() => {
-      if (email && password) {
+      if (phoneNumber && password) {
         router.replace('/(tabs)');
       } else {
-        Alert.alert('Error', 'Invalid credentials. Please use the provided default credentials.');
+        Alert.alert('Error', 'Invalid credentials');
       }
       setIsLoading(false);
     }, 1500);
+  };
+
+  const handleForgotPassword = () => {
+    Alert.alert('Forgot Password', 'Password reset functionality will be implemented here.');
+  };
+
+  const handleSignUp = () => {
+    router.push('/(auth)/signup');
   };
 
   return (
@@ -80,25 +88,22 @@ export default function LoginScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
-       
-
         {/* Login Form */}
         <View style={styles.section}>
           <View style={styles.formCard}>
-            {/* Email Input */}
+            {/* Phone Number Input */}
             <View style={styles.inputGroup}>
-              <ThemedText style={styles.inputLabel}>Email Address</ThemedText>
+              <ThemedText style={styles.inputLabel}>Phone Number</ThemedText>
               <View style={styles.inputContainer}>
-                <Feather name="mail" size={20} color="#64748B" style={styles.inputIcon} />
+                <Feather name="phone" size={20} color="#64748B" style={styles.inputIcon} />
                 <TextInput
                   style={styles.textInput}
-                  placeholder="Enter your email"
+                  placeholder="Enter your phone number"
                   placeholderTextColor="#94A3B8"
-                  value={email}
-                  onChangeText={setEmail}
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  autoComplete="email"
+                  value={phoneNumber}
+                  onChangeText={setPhoneNumber}
+                  keyboardType="phone-pad"
+                  autoComplete="tel"
                 />
               </View>
             </View>
@@ -130,6 +135,15 @@ export default function LoginScreen() {
               </View>
             </View>
 
+            {/* Forgot Password Link */}
+            <TouchableOpacity 
+              style={styles.forgotPasswordLink}
+              onPress={handleForgotPassword}
+            >
+              <ThemedText style={styles.forgotPasswordText}>
+                Forgot Password?
+              </ThemedText>
+            </TouchableOpacity>
 
             {/* Sign In Button */}
             <TouchableOpacity 
@@ -154,20 +168,18 @@ export default function LoginScreen() {
                 </ThemedText>
               </LinearGradient>
             </TouchableOpacity>
-          </View>
-        </View>
 
-        {/* Credentials Info */}
-        <View style={styles.section}>
-          <View style={styles.infoCard}>
-            <View style={styles.infoHeader}>
-              <Feather name="info" size={20} color="#059669" />
-              <ThemedText style={styles.infoTitle}>Login Information</ThemedText>
+            {/* Sign Up Link */}
+            <View style={styles.signUpContainer}>
+              <ThemedText style={styles.signUpText}>
+                Don't have an account?{' '}
+              </ThemedText>
+              <TouchableOpacity onPress={handleSignUp}>
+                <ThemedText style={styles.signUpLink}>
+                  Sign Up
+                </ThemedText>
+              </TouchableOpacity>
             </View>
-            <ThemedText style={styles.infoText}>
-              Use the default credentials provided by your control center. 
-              You can update your credentials after first login in the profile section.
-            </ThemedText>
           </View>
         </View>
       </ScrollView>
@@ -214,7 +226,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    marginTop: -20,
+    marginTop: -40,
   },
   scrollContent: {
     paddingBottom: 40,
@@ -222,20 +234,7 @@ const styles = StyleSheet.create({
   section: {
     paddingHorizontal: 20,
     marginBottom: 24,
-  },
-  welcomeTitle: {
-    fontSize: 28,
-    fontWeight: '700',
-    color: '#064E3B',
-    marginBottom: 8,
-    textAlign: 'center',
-    marginTop:30,
-  },
-  welcomeSubtitle: {
-    fontSize: 16,
-    color: '#64748B',
-    textAlign: 'center',
-    lineHeight: 22,
+    marginTop: 30,
   },
   formCard: {
     backgroundColor: '#FFF',
@@ -277,19 +276,11 @@ const styles = StyleSheet.create({
   visibilityToggle: {
     padding: 4,
   },
-  quickFillButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#F0FDF4',
-    paddingVertical: 12,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#BBF7D0',
+  forgotPasswordLink: {
+    alignSelf: 'flex-end',
     marginBottom: 20,
-    gap: 8,
   },
-  quickFillText: {
+  forgotPasswordText: {
     color: '#059669',
     fontSize: 14,
     fontWeight: '600',
@@ -318,48 +309,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
-  infoCard: {
-    backgroundColor: '#FFF',
-    borderRadius: 16,
-    padding: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  infoHeader: {
+  signUpContainer: {
     flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 12,
-    gap: 8,
+    marginTop: 20,
   },
-  infoTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#064E3B',
-  },
-  infoText: {
-    fontSize: 14,
+  signUpText: {
     color: '#64748B',
-    lineHeight: 20,
-    marginBottom: 16,
-  },
-  credentialsPreview: {
-    backgroundColor: '#F8FAFC',
-    borderRadius: 8,
-    padding: 12,
-  },
-  credentialsLabel: {
-    fontSize: 12,
-    color: '#64748B',
-    fontWeight: '500',
-    marginBottom: 2,
-  },
-  credentialsValue: {
     fontSize: 14,
-    color: '#064E3B',
+  },
+  signUpLink: {
+    color: '#059669',
+    fontSize: 14,
     fontWeight: '600',
-    marginBottom: 8,
   },
 });

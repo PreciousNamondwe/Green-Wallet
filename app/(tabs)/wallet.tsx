@@ -244,10 +244,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#F0FDF4',
   },
   header: {
-    paddingTop: 60,
+    paddingTop: 40,
     paddingBottom: 30,
     paddingHorizontal: 20,
-    zIndex:20,
   },
   headerContent: {
     flexDirection: 'row',
@@ -294,7 +293,7 @@ const styles = StyleSheet.create({
   },
   totalBalance: {
     color: '#064E3B',
-    fontSize: 32,
+    fontSize: 18,
     fontWeight: '700',
     marginBottom: 15,
     textAlign: 'center',
@@ -315,7 +314,7 @@ const styles = StyleSheet.create({
   },
   balanceItemValue: {
     color: '#064E3B',
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
   },
   scrollView: {
@@ -337,7 +336,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '700',
     color: '#064E3B',
   },
@@ -533,7 +532,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   farmValueAmount: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '700',
     color: '#064E3B',
   },

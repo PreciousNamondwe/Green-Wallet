@@ -48,10 +48,10 @@ export default function HomeScreen() {
 
   const agriculturalFeatures = [
     { 
-      icon: 'seedling', 
-      label: 'Input Loan', 
+      icon: 'wallet', 
+      label: 'Loans', 
       color: '#22C55E', 
-      description: 'Seeds & Fertilizer',
+      description: 'Input & finacial',
       iconLib: FontAwesome5
     },
     { 
@@ -62,29 +62,29 @@ export default function HomeScreen() {
       iconLib: FontAwesome5
     },
     { 
-      icon: 'water', 
-      label: 'Irrigation', 
+      icon: 'shopping-cart', 
+      label: 'Market', 
       color: '#06B6D4', 
-      description: 'Water Systems',
+      description: 'Online market',
       iconLib: FontAwesome5
     },
     { 
-      icon: 'warehouse', 
-      label: 'Storage', 
+      icon: 'cloud-rain', 
+      label: 'Weather', 
       color: '#8B5CF6', 
-      description: 'Crop Storage',
+      description: 'monitoring',
       iconLib: FontAwesome5
     },
     { 
-      icon: 'chart-line', 
-      label: 'Crop Sales', 
+      icon: 'map', 
+      label: 'Roadmap', 
       color: '#10B981', 
-      description: 'Sell Harvest',
+      description: 'crop Roadmap',
       iconLib: FontAwesome5
     },
     { 
       icon: 'shield-alt', 
-      label: 'Crop Insurance', 
+      label: 'Insurance', 
       color: '#EF4444', 
       description: 'Risk Protection',
       iconLib: FontAwesome5
@@ -246,7 +246,7 @@ export default function HomeScreen() {
 
         {/* Farm Quick Actions */}
         <View style={styles.section}>
-          <ThemedText style={styles.sectionTitle}>Farm Services</ThemedText>
+          <ThemedText style={styles.sectionTitle}>Wallet Services</ThemedText>
           <View style={styles.featuresGrid}>
             {agriculturalFeatures.map((item, index) => (
               <TouchableOpacity key={index} style={styles.featureItem}>
@@ -264,24 +264,24 @@ export default function HomeScreen() {
         </View>
 
 
-        {/* Sustainability Banner */}
-        <TouchableOpacity style={styles.premiumBanner}>
-          <LinearGradient
-            colors={['#059669', '#10B981']}
-            style={styles.premiumGradient}
-          >
-            <View style={styles.premiumContent}>
-              <View style={styles.premiumText}>
-                <FontAwesome5 name="leaf" size={24} color="#BBF7D0" />
-                <ThemedText style={styles.premiumTitle}>Earn Green Credits</ThemedText>
-                <ThemedText style={styles.premiumDescription}>
-                  Get rewarded for sustainable farming practices
+          {/* Cooperative Feature */}
+        <View style={styles.section}>
+          <View style={styles.coopCard}>
+            <View style={styles.coopContent}>
+              <FontAwesome5 name="users" size={24} color="#059669" />
+              <View style={styles.coopText}>
+                <ThemedText style={styles.coopTitle}>Cooperative Group Wallets</ThemedText>
+                <ThemedText style={styles.coopDescription}>
+                  Join farmer groups for collective savings, loans, and better rates
                 </ThemedText>
               </View>
-              <Feather name="chevron-right" size={20} color="#FFF" />
             </View>
-          </LinearGradient>
-        </TouchableOpacity>
+            <TouchableOpacity style={styles.coopButton}>
+              <ThemedText style={styles.coopButtonText}>Join Group</ThemedText>
+            </TouchableOpacity>
+          </View>
+        </View>
+
       </ScrollView>
     </View>
   );
@@ -294,10 +294,9 @@ const styles = StyleSheet.create({
     
   },
   header: {
-    paddingTop: 60,
+    paddingTop: 40,
     paddingBottom: 20,
     paddingHorizontal: 20,
-    zIndex:20,
   },
   headerContent: {
     flexDirection: 'row',
@@ -312,7 +311,7 @@ const styles = StyleSheet.create({
   },
   userName: {
     color: '#FFF',
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: '700',
     marginTop: 4,
   },
@@ -339,12 +338,12 @@ const styles = StyleSheet.create({
     marginTop: -20,
   },
   cardsSection: {
-    top:10,
+    top:-20,
     paddingVertical: 20,
   },
   card: {
     width: SCREEN_WIDTH - 40,
-    height: 220,
+    height: 200,
     marginHorizontal: 20,
     borderRadius: 24,
     shadowColor: '#000',
@@ -384,7 +383,7 @@ const styles = StyleSheet.create({
   },
   cardBalanceAmount: {
     color: '#FFF',
-    fontSize: 32,
+    fontSize: 17,
     fontWeight: '700',
   },
   cardFooter: {
@@ -439,9 +438,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '700',
     color: '#064E3B',
+    marginBottom: 16,
   },
   viewAllText: {
     color: '#059669',
@@ -534,36 +534,48 @@ const styles = StyleSheet.create({
   positiveChange: {
     color: '#059669',
   },
-  premiumBanner: {
-    marginHorizontal: 20,
-    marginBottom: 70,
-    borderRadius: 20,
-    overflow: 'hidden',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.1,
-    shadowRadius: 20,
-    elevation: 8,
+  coopCard: {
+    backgroundColor: '#FFF',
+    borderRadius: 16,
+    padding: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+    marginBottom:50,
   },
-  premiumGradient: {
-    padding: 20,
-  },
-  premiumContent: {
+  coopContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  premiumText: {
     flex: 1,
   },
-  premiumTitle: {
-    color: '#FFF',
-    fontSize: 18,
-    fontWeight: '700',
-    marginTop: 8,
+  coopText: {
+    marginLeft: 12,
+    flex: 1,
+  },
+  coopTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#064E3B',
     marginBottom: 4,
   },
-  premiumDescription: {
-    color: 'rgba(255,255,255,0.8)',
+  coopDescription: {
     fontSize: 12,
+    color: '#64748B',
+  },
+  coopButton: {
+    backgroundColor: '#059669',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 12,
+  },
+  coopButtonText: {
+    color: '#FFF',
+    fontSize: 12,
+    fontWeight: '600',
   },
 });
