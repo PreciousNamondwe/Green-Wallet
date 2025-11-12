@@ -11,12 +11,14 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather, MaterialCommunityIcons, FontAwesome5, Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function WalletScreen() {
   const [balanceVisible, setBalanceVisible] = useState(true);
   const [activeTab, setActiveTab] = useState('accounts');
+  const router = useRouter();
 
   const walletData = {
     totalBalance: '25,760.50',
@@ -52,12 +54,12 @@ export default function WalletScreen() {
     }
   ];
 
-  const walletActions = [
-    { icon: 'arrow-down-circle', label: 'Deposit', color: '#22C55E' },
-    { icon: 'arrow-up-circle', label: 'Withdraw', color: '#EF4444' },
-    { icon: 'send', label: 'Transfer', color: '#3B82F6' },
-    { icon: 'plus-circle', label: 'Top Up', color: '#8B5CF6' }
-  ];
+ const walletActions = [
+  { icon: 'arrow-down-circle', label: 'Deposit', color: '#22C55E', action: 'deposit' },
+  { icon: 'arrow-up-circle', label: 'Withdraw', color: '#EF4444', action: 'withdraw' },
+  { icon: 'send', label: 'Transfer', color: '#3B82F6', action: 'transfer' },
+  { icon: 'plus-circle', label: 'Top Up', color: '#8B5CF6', action: 'topup' }
+];
 
   const quickTransfers = [
     { 
@@ -164,13 +166,22 @@ export default function WalletScreen() {
         <View style={styles.section}>
           <View style={styles.actionsGrid}>
             {walletActions.map((action, index) => (
-              <TouchableOpacity key={index} style={styles.actionItem}>
-                <View style={[styles.actionIcon, { backgroundColor: `${action.color}15` }]}>
-                  <Feather name={action.icon} size={24} color={action.color} />
-                </View>
-                <ThemedText style={styles.actionLabel}>{action.label}</ThemedText>
-              </TouchableOpacity>
-            ))}
+  <TouchableOpacity 
+    key={index} 
+    style={styles.actionItem}
+    onPress={() => {
+      if (action.action === 'transfer') {
+        router.push('/transactions/transfer');
+      }
+      // Handle other actions
+    }}
+  >
+    <View style={[styles.actionIcon, { backgroundColor: `${action.color}15` }]}>
+      <Feather name={action.icon} size={24} color={action.color} />
+    </View>
+    <ThemedText style={styles.actionLabel}>{action.label}</ThemedText>
+  </TouchableOpacity>
+))}
           </View>
         </View>
 
