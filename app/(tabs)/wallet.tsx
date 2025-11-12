@@ -137,20 +137,20 @@ export default function WalletScreen() {
           </View>
           
           <ThemedText style={styles.totalBalance}>
-            {balanceVisible ? `MK ${walletData.totalBalance}` : '••••••'}
+            {balanceVisible ? `MKW${walletData.totalBalance}` : '••••••'}
           </ThemedText>
           
           <View style={styles.balanceBreakdown}>
             <View style={styles.balanceItem}>
               <ThemedText style={styles.balanceItemLabel}>Available</ThemedText>
               <ThemedText style={styles.balanceItemValue}>
-                MK {balanceVisible ? walletData.availableBalance : '••••••'}
+                MKW{balanceVisible ? walletData.availableBalance : '••••••'}
               </ThemedText>
             </View>
             <View style={styles.balanceItem}>
               <ThemedText style={styles.balanceItemLabel}>Reserved</ThemedText>
               <ThemedText style={styles.balanceItemValue}>
-                MK {balanceVisible ? walletData.reservedBalance : '••••••'}
+                MKW{balanceVisible ? walletData.reservedBalance : '••••••'}
               </ThemedText>
             </View>
           </View>
@@ -173,7 +173,9 @@ export default function WalletScreen() {
       if (action.action === 'transfer') {
         router.push('/transactions/transfer');
       }
-      // Handle other actions
+      if (action.action === 'withdraw') {
+        router.push('/transactions/withdraw');
+      }
     }}
   >
     <View style={[styles.actionIcon, { backgroundColor: `${action.color}15` }]}>
@@ -225,7 +227,7 @@ export default function WalletScreen() {
                     </View>
                   </View>
                   <ThemedText style={styles.accountBalance}>
-                    MK {balanceVisible ? account.balance : '••••••'}
+                    MKW{balanceVisible ? account.balance : '••••••'}
                   </ThemedText>
                 </TouchableOpacity>
               ))}
@@ -452,7 +454,7 @@ const styles = StyleSheet.create({
     color: '#64748B',
   },
   accountBalance: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '700',
     color: '#064E3B',
     marginLeft: 12,

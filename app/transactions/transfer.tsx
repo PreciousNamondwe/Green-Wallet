@@ -22,42 +22,42 @@ const banks = [
     id: 1,
     name: 'FDH Bank',
     code: 'FDH',
-    logo: 'https://via.placeholder.com/50/EF4444/FFFFFF?text=FDH',
+    logo: 'https://tse3.mm.bing.net/th/id/OIP.e2kLRxCoHc4J_KqfX-3CVQAAAA?rs=1&pid=ImgDetMain&o=7&rm=3',
     color: '#EF4444'
   },
   {
     id: 2,
     name: 'National Bank',
     code: 'NB',
-    logo: 'https://via.placeholder.com/50/3B82F6/FFFFFF?text=NB',
+    logo: 'https://th.bing.com/th/id/R.95bdaed43aca7cb79aa7a0f95a059fda?rik=dB7AprXUHQm%2brA&pid=ImgRaw&r=0',
     color: '#3B82F6'
   },
   {
     id: 3,
     name: 'Ecobank',
     code: 'ECO',
-    logo: 'https://via.placeholder.com/50/10B981/FFFFFF?text=ECO',
+    logo: 'https://tse3.mm.bing.net/th/id/OIP.yRYHYW2T04YJdLWvRHNMlgHaED?rs=1&pid=ImgDetMain&o=7&rm=3',
     color: '#10B981'
   },
   {
     id: 4,
     name: 'Standard Bank',
     code: 'SB',
-    logo: 'https://via.placeholder.com/50/8B5CF6/FFFFFF?text=SB',
+    logo: 'https://tse2.mm.bing.net/th/id/OIP.9FhPbX7V6Ja6_wQTd1artAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3',
     color: '#8B5CF6'
   },
   {
     id: 5,
     name: 'First Merchant Bank',
     code: 'FMB',
-    logo: 'https://via.placeholder.com/50/F59E0B/FFFFFF?text=FMB',
+    logo: 'https://th.bing.com/th/id/R.2cddbb3da713e983ff9cecccdb681360?rik=z1BgZydTMDxO5g&pid=ImgRaw&r=0',
     color: '#F59E0B'
   },
   {
     id: 6,
     name: 'NBS Bank',
     code: 'NBS',
-    logo: 'https://via.placeholder.com/50/06B6D4/FFFFFF?text=NBS',
+    logo: 'https://th.bing.com/th/id/R.52b533311147186545de66dc120858ad?rik=C%2beot3ccPgPmTg&pid=ImgRaw&r=0',
     color: '#06B6D4'
   },
 ];
