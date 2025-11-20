@@ -1,20 +1,22 @@
+import { ThemedText } from '@/components/themed-text';
+import { useOAuth } from '@clerk/clerk-expo';
+import { Feather, FontAwesome5 } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-  View,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
-  StatusBar,
+  Alert,
   Dimensions,
-  TextInput,
+  Image,
   KeyboardAvoidingView,
   Platform,
-  Alert
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native';
-import { ThemedText } from '@/components/themed-text';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Feather, FontAwesome5 } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -23,7 +25,32 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  
   const router = useRouter();
+  const { startOAuthFlow } = useOAuth({ strategy: 'oauth_google' });
+
+  const onGoogleSignInPress = async () => {
+    setIsGoogleLoading(true);
+
+    try {
+      const { createdSessionId, setActive } = await startOAuthFlow();
+      
+      if (createdSessionId && setActive) {
+        await setActive({ session: createdSessionId });
+        router.replace('/(tabs)');
+      }
+    } catch (err: any) {
+      console.error('OAuth error:', err);
+      if (err.message?.includes('cancelled')) {
+        Alert.alert('Cancelled', 'Google sign in was cancelled');
+      } else {
+        Alert.alert('Error', 'Failed to sign in with Google');
+      }
+    } finally {
+      setIsGoogleLoading(false);
+    }
+  };
 
   const onSignInPress = async () => {
     if (!phoneNumber || !password) {
@@ -169,6 +196,31 @@ export default function LoginScreen() {
               </LinearGradient>
             </TouchableOpacity>
 
+            {/* Divider */}
+            <View style={styles.divider}>
+              <View style={styles.dividerLine} />
+              <ThemedText style={styles.dividerText}>OR</ThemedText>
+              <View style={styles.dividerLine} />
+            </View>
+
+            {/* Google Sign-In Button */}
+            <TouchableOpacity 
+              style={[
+                styles.googleButton, 
+                isGoogleLoading && styles.googleButtonDisabled
+              ]} 
+              onPress={onGoogleSignInPress}
+              disabled={isGoogleLoading}
+            >
+              <Image
+                source={{ uri: 'https://developers.google.com/identity/images/g-logo.png' }}
+                style={styles.googleIcon}
+              />
+              <ThemedText style={styles.googleButtonText}>
+                {isGoogleLoading ? 'Connecting...' : 'Sign in with Google'}
+              </ThemedText>
+            </TouchableOpacity>
+
             {/* Sign Up Link */}
             <View style={styles.signUpContainer}>
               <ThemedText style={styles.signUpText}>
@@ -306,6 +358,52 @@ const styles = StyleSheet.create({
   },
   signInButtonText: {
     color: '#FFF',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  divider: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#E2E8F0',
+  },
+  dividerText: {
+    marginHorizontal: 16,
+    color: '#64748B',
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  googleButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FFF',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  googleButtonDisabled: {
+    opacity: 0.7,
+  },
+  googleIcon: {
+    width: 20,
+    height: 20,
+    marginRight: 12,
+  },
+  googleButtonText: {
+    color: '#64748B',
     fontSize: 16,
     fontWeight: '600',
   },

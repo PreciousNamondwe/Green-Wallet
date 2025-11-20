@@ -260,6 +260,7 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingBottom: 30,
     paddingHorizontal: 20,
+    borderBottomRightRadius:70,
   },
   headerContent: {
     flexDirection: 'row',
@@ -284,7 +285,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.1)',
   },
   balanceCard: {
-    backgroundColor: '#FFF',
+    backgroundColor: '#BBF7D0',
     borderRadius: 20,
     padding: 20,
     shadowColor: '#000',
@@ -384,7 +385,7 @@ const styles = StyleSheet.create({
   },
   tabContainer: {
     flexDirection: 'row',
-    backgroundColor: '#E2E8F0',
+    backgroundColor: '#fff',
     borderRadius: 12,
     padding: 4,
     marginBottom: 16,
@@ -396,7 +397,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   activeTab: {
-    backgroundColor: '#FFF',
+    backgroundColor: '#BBF7D0',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,

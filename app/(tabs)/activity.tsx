@@ -1,16 +1,15 @@
+import { ThemedText } from '@/components/themed-text';
+import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
 import {
-  View,
+  Dimensions,
   ScrollView,
-  TouchableOpacity,
-  StyleSheet,
   StatusBar,
-  Dimensions
+  StyleSheet,
+  TouchableOpacity,
+  View
 } from 'react-native';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Feather, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -277,12 +276,12 @@ const styles = StyleSheet.create({
   },
   greeting: {
     color: '#A7F3D0',
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '500',
   },
   userName: {
     color: '#FFF',
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: '700',
     marginTop: 4,
   },
@@ -333,14 +332,14 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '700',
     color: '#064E3B',
     marginBottom: 16,
   },
   viewAllText: {
     color: '#059669',
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '600',
   },
   healthCard: {
@@ -369,13 +368,13 @@ const styles = StyleSheet.create({
   },
   healthScore: {
     color: '#064E3B',
-    fontSize: 28,
+    fontSize: 18,
     fontWeight: '700',
     marginBottom: 2,
   },
   healthLevel: {
     color: '#059669',
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
   },
   scoreCircle: {
@@ -402,7 +401,7 @@ const styles = StyleSheet.create({
   },
   recommendationsTitle: {
     color: '#064E3B',
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
     marginBottom: 12,
   },
@@ -413,7 +412,7 @@ const styles = StyleSheet.create({
   },
   recommendationText: {
     color: '#64748B',
-    fontSize: 14,
+    fontSize: 12,
     marginLeft: 10,
     flex: 1,
     lineHeight: 18,
@@ -446,7 +445,7 @@ const styles = StyleSheet.create({
   },
   statValue: {
     color: '#064E3B',
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '700',
     marginBottom: 4,
     textAlign: 'center',
@@ -456,109 +455,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '500',
     textAlign: 'center',
-  },
-  filtersContainer: {
-    paddingRight: 20,
-    gap: 8,
-  },
-  filterButton: {
-    paddingHorizontal: 18,
-    paddingVertical: 10,
-    borderRadius: 20,
-    backgroundColor: '#F1F5F9',
-  },
-  activeFilterButton: {
-    backgroundColor: '#059669',
-  },
-  filterButtonText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#64748B',
-  },
-  activeFilterButtonText: {
-    color: '#FFF',
-  },
-  transactionsList: {
-    backgroundColor: '#FFF',
-    borderRadius: 16,
-    overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  transactionItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
-  },
-  transactionIcon: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  transactionDetails: {
-    flex: 1,
-  },
-  transactionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#064E3B',
-    marginBottom: 2,
-  },
-  transactionDescription: {
-    fontSize: 12,
-    color: '#64748B',
-    marginBottom: 6,
-  },
-  transactionMeta: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  transactionCategory: {
-    fontSize: 11,
-    color: '#059669',
-    fontWeight: '600',
-    backgroundColor: '#F0FDF4',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 8,
-  },
-  transactionTime: {
-    fontSize: 11,
-    color: '#94A3B8',
-  },
-  transactionAmountContainer: {
-    alignItems: 'flex-end',
-    marginLeft: 8,
-  },
-  transactionAmount: {
-    fontSize: 16,
-    fontWeight: '700',
-    marginBottom: 4,
-  },
-  positiveAmount: {
-    color: '#059669',
-  },
-  negativeAmount: {
-    color: '#EF4444',
-  },
-  statusContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  transactionStatus: {
-    fontSize: 11,
-    fontWeight: '600',
-    textTransform: 'capitalize',
   },
   exportButton: {
     flexDirection: 'row',

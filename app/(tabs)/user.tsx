@@ -1,17 +1,16 @@
+import { ThemedText } from '@/components/themed-text';
+import { Feather, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
 import {
-  View,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
-  StatusBar,
   Dimensions,
-  Image
+  Image,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  TouchableOpacity,
+  View
 } from 'react-native';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Feather, FontAwesome5, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -344,13 +343,13 @@ const styles = StyleSheet.create({
   },
   userName: {
     color: '#FFF',
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: '700',
     marginBottom: 4,
   },
   userRole: {
     color: '#A7F3D0',
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '500',
     marginBottom: 8,
   },

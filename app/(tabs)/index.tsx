@@ -1,16 +1,18 @@
-import React, { useState, useRef } from 'react';
-import { 
-  View, 
-  ScrollView, 
-  TouchableOpacity, 
-  StyleSheet, 
-  Animated, 
-  Dimensions,
-  StatusBar 
-} from 'react-native';
-import { Feather, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { ThemedText } from '@/components/themed-text';
+import { Feather, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import React, { useRef, useState } from 'react';
+import {
+  Animated,
+  Dimensions,
+  Platform,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  TouchableOpacity,
+  View
+} from 'react-native';
+
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -120,11 +122,11 @@ export default function HomeScreen() {
     const getCardColors = (type) => {
       switch(type) {
         case 'operating':
-          return ['#16A34A', '#22C55E'];
+          return ['#70c991ff', '#3bb969ff'];
         case 'savings':
-          return ['#059669', '#10B981'];
+          return ['#72d8b8ff', '#09e098ff'];
         case 'loan':
-          return ['#D97706', '#F59E0B'];
+          return ['#5ee08cff', '#4ece7bff'];
         default:
           return ['#16A34A', '#22C55E'];
       }
@@ -291,10 +293,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F0FDF4',
+    fontFamily: Platform.OS === 'ios' ? 'System' : 'Roboto',
     
   },
   header: {
-    paddingTop: 40,
+    paddingTop: 60,
     paddingBottom: 20,
     paddingHorizontal: 20,
     borderBottomRightRadius:50,
@@ -431,6 +434,7 @@ const styles = StyleSheet.create({
   section: {
     paddingHorizontal: 20,
     marginBottom: 24,
+    top:-30,
   },
   sectionHeader: {
     flexDirection: 'row',
