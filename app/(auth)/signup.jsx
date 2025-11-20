@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
+import { ThemedText } from '@/components/themed-text';
+import { Feather, FontAwesome5 } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
+import { useState } from 'react';
 import {
-  View,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
-  StatusBar,
+  Alert,
   Dimensions,
-  TextInput,
   KeyboardAvoidingView,
   Platform,
-  Alert
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native';
-import { ThemedText } from '@/components/themed-text';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Feather, FontAwesome5 } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -29,26 +29,22 @@ export default function SignupScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [verificationStep, setVerificationStep] = useState(1); // 1: Phone input, 2: OTP verification
-  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [verificationStep, setVerificationStep] = useState(1); // 1: Registration, 2: Phone verification
+  const [code, setCode] = useState('');
+  const [generatedCode, setGeneratedCode] = useState('');
+  
   const router = useRouter();
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field, value) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
   };
 
-  const handleOtpChange = (value: string, index: number) => {
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
-
-    // Auto-focus next input
-    if (value && index < 5) {
-      // You would need to add refs to the OTP inputs for this to work
-    }
+  // Generate a random 6-digit verification code
+  const generateVerificationCode = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
   };
 
   const validateForm = () => {
@@ -67,14 +63,15 @@ export default function SignupScreen() {
     }
 
     // Phone number validation
-    if (phoneNumber.length < 10) {
+    const phoneRegex = /^\+?[\d\s-()]+$/;
+    if (!phoneRegex.test(phoneNumber) || phoneNumber.length < 10) {
       Alert.alert('Error', 'Please enter a valid phone number');
       return false;
     }
 
     // Password validation
-    if (password.length < 6) {
-      Alert.alert('Error', 'Password must be at least 6 characters long');
+    if (password.length < 8) {
+      Alert.alert('Error', 'Password must be at least 8 characters long');
       return false;
     }
 
@@ -86,46 +83,98 @@ export default function SignupScreen() {
     return true;
   };
 
-  const sendOtp = async () => {
+  const handleSignUp = async () => {
     if (!validateForm()) {
       return;
     }
 
     setIsLoading(true);
 
-    // Simulate OTP sending
-    setTimeout(() => {
-      setVerificationStep(2);
+    try {
+      // Generate a fake verification code
+      const fakeCode = generateVerificationCode();
+      setGeneratedCode(fakeCode);
+      
+      // Simulate API delay
+      setTimeout(() => {
+        setVerificationStep(2);
+        setIsLoading(false);
+        
+        // Show the code in development for testing
+        if (__DEV__) {
+          Alert.alert(
+            'Verification Code Sent', 
+            `A verification code has been sent to ${formData.phoneNumber}\n\nDevelopment Code: ${fakeCode}`,
+            [{ text: 'OK' }]
+          );
+        } else {
+          Alert.alert(
+            'Verification Code Sent', 
+            `A verification code has been sent to ${formData.phoneNumber}`,
+            [{ text: 'OK' }]
+          );
+        }
+      }, 1500);
+
+    } catch (err) {
+      console.error('Sign up error:', err);
+      Alert.alert('Error', 'Failed to create account. Please try again.');
       setIsLoading(false);
-      Alert.alert('OTP Sent', `Verification code sent to ${formData.phoneNumber}`);
-    }, 1500);
+    }
   };
 
-  const verifyOtp = async () => {
-    const otpCode = otp.join('');
-    if (otpCode.length !== 6) {
-      Alert.alert('Error', 'Please enter the 6-digit verification code');
+  const handleVerification = async () => {
+    if (!code) {
+      Alert.alert('Error', 'Please enter the verification code');
       return;
     }
 
     setIsLoading(true);
 
-    // Simulate OTP verification
+    // Simulate verification process
     setTimeout(() => {
+      if (code === generatedCode) {
+        // Success - create account
+        Alert.alert(
+          'Success', 
+          'Account created successfully! Welcome to GreenWallet!',
+          [{ text: 'OK', onPress: () => router.replace('/(tabs)') }]
+        );
+      } else {
+        Alert.alert('Error', 'Invalid verification code. Please try again.');
+      }
       setIsLoading(false);
+    }, 1000);
+  };
+
+  const resendVerificationCode = async () => {
+    const newCode = generateVerificationCode();
+    setGeneratedCode(newCode);
+    
+    // Show the new code in development for testing
+    if (__DEV__) {
       Alert.alert(
-        'Success', 
-        'Account created successfully!',
-        [{ text: 'OK', onPress: () => router.replace('/(tabs)') }]
+        'New Code Sent', 
+        `A new verification code has been sent to your phone.\n\nDevelopment Code: ${newCode}`,
+        [{ text: 'OK' }]
       );
-    }, 1500);
+    } else {
+      Alert.alert('Code Sent', 'A new verification code has been sent to your phone.');
+    }
   };
 
   const handleLogin = () => {
     router.back();
   };
 
-  const renderPhoneInputStep = () => (
+  // Auto-fill code for testing in development
+  const autoFillCode = () => {
+    if (__DEV__ && generatedCode) {
+      setCode(generatedCode);
+    }
+  };
+
+  const renderRegistrationStep = () => (
     <>
       {/* Full Name Input */}
       <View style={styles.inputGroup}>
@@ -168,7 +217,7 @@ export default function SignupScreen() {
           <Feather name="phone" size={20} color="#64748B" style={styles.inputIcon} />
           <TextInput
             style={styles.textInput}
-            placeholder="Enter your phone number"
+            placeholder="+265 XXX XXX XXX"
             placeholderTextColor="#94A3B8"
             value={formData.phoneNumber}
             onChangeText={(value) => handleInputChange('phoneNumber', value)}
@@ -185,7 +234,7 @@ export default function SignupScreen() {
           <Feather name="lock" size={20} color="#64748B" style={styles.inputIcon} />
           <TextInput
             style={styles.textInput}
-            placeholder="Create a password"
+            placeholder="Create a password (min. 8 characters)"
             placeholderTextColor="#94A3B8"
             value={formData.password}
             onChangeText={(value) => handleInputChange('password', value)}
@@ -232,13 +281,13 @@ export default function SignupScreen() {
         </View>
       </View>
 
-      {/* Send OTP Button */}
+      {/* Sign Up Button */}
       <TouchableOpacity 
         style={[
           styles.signUpButton,
           isLoading && styles.signUpButtonDisabled
         ]}
-        onPress={sendOtp}
+        onPress={handleSignUp}
         disabled={isLoading}
       >
         <LinearGradient
@@ -248,49 +297,66 @@ export default function SignupScreen() {
           {isLoading ? (
             <Feather name="loader" size={20} color="#FFF" />
           ) : (
-            <Feather name="send" size={20} color="#FFF" />
+            <Feather name="user-plus" size={20} color="#FFF" />
           )}
           <ThemedText style={styles.signUpButtonText}>
-            {isLoading ? 'Sending OTP...' : 'Send Verification Code'}
+            {isLoading ? 'Creating Account...' : 'Create Account'}
           </ThemedText>
         </LinearGradient>
       </TouchableOpacity>
     </>
   );
 
-  const renderOtpVerificationStep = () => (
+  const renderVerificationStep = () => (
     <>
       <View style={styles.otpHeader}>
         <Feather name="shield" size={48} color="#059669" />
         <ThemedText style={styles.otpTitle}>Verify Your Phone</ThemedText>
         <ThemedText style={styles.otpSubtitle}>
-          Enter the 6-digit code sent to{'\n'}
+          Enter the verification code sent to{'\n'}
           <ThemedText style={styles.phoneNumber}>{formData.phoneNumber}</ThemedText>
         </ThemedText>
+        
+        {/* Development Helper - Show code in development */}
+        {__DEV__ && generatedCode && (
+          <View style={styles.devHelper}>
+            <ThemedText style={styles.devHelperText}>
+              Development Code: {generatedCode}
+            </ThemedText>
+            <TouchableOpacity onPress={autoFillCode} style={styles.autoFillButton}>
+              <ThemedText style={styles.autoFillText}>Auto-fill</ThemedText>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
 
-      {/* OTP Inputs */}
-      <View style={styles.otpContainer}>
-        {otp.map((digit, index) => (
+      {/* Verification Code Input */}
+      <View style={styles.inputGroup}>
+        <ThemedText style={styles.inputLabel}>Verification Code</ThemedText>
+        <View style={styles.inputContainer}>
+          <Feather name="key" size={20} color="#64748B" style={styles.inputIcon} />
           <TextInput
-            key={index}
-            style={styles.otpInput}
-            value={digit}
-            onChangeText={(value) => handleOtpChange(value, index)}
+            style={styles.textInput}
+            placeholder="Enter 6-digit code"
+            placeholderTextColor="#94A3B8"
+            value={code}
+            onChangeText={setCode}
             keyboardType="number-pad"
-            maxLength={1}
-            textAlign="center"
+            maxLength={6}
           />
-        ))}
+        </View>
       </View>
 
-      {/* Resend OTP */}
-      <TouchableOpacity style={styles.resendContainer}>
+      {/* Resend Code */}
+      <TouchableOpacity 
+        style={styles.resendContainer}
+        onPress={resendVerificationCode}
+      >
         <ThemedText style={styles.resendText}>
           Didn't receive the code?{' '}
         </ThemedText>
         <ThemedText style={styles.resendLink}>
-          Resend OTP
+          Resend Code
         </ThemedText>
       </TouchableOpacity>
 
@@ -300,7 +366,7 @@ export default function SignupScreen() {
           styles.signUpButton,
           isLoading && styles.signUpButtonDisabled
         ]}
-        onPress={verifyOtp}
+        onPress={handleVerification}
         disabled={isLoading}
       >
         <LinearGradient
@@ -313,19 +379,19 @@ export default function SignupScreen() {
             <Feather name="check-circle" size={20} color="#FFF" />
           )}
           <ThemedText style={styles.signUpButtonText}>
-            {isLoading ? 'Verifying...' : 'Verify & Create Account'}
+            {isLoading ? 'Verifying...' : 'Verify & Continue'}
           </ThemedText>
         </LinearGradient>
       </TouchableOpacity>
 
-      {/* Back to phone input */}
+      {/* Back to registration */}
       <TouchableOpacity 
         style={styles.backButton}
         onPress={() => setVerificationStep(1)}
       >
         <Feather name="arrow-left" size={16} color="#059669" />
         <ThemedText style={styles.backButtonText}>
-          Change Phone Number
+          Back to Registration
         </ThemedText>
       </TouchableOpacity>
     </>
@@ -344,6 +410,12 @@ export default function SignupScreen() {
         style={styles.header}
       >
         <View style={styles.headerContent}>
+          <TouchableOpacity 
+            style={styles.backButtonHeader}
+            onPress={() => verificationStep === 1 ? router.back() : setVerificationStep(1)}
+          >
+            <Feather name="arrow-left" size={24} color="#FFF" />
+          </TouchableOpacity>
           <View style={styles.logoContainer}>
             <View style={styles.logo}>
               <FontAwesome5 name="leaf" size={32} color="#FFF" />
@@ -353,6 +425,7 @@ export default function SignupScreen() {
               {verificationStep === 1 ? 'Create Your Account' : 'Verify Phone Number'}
             </ThemedText>
           </View>
+          <View style={styles.placeholder} />
         </View>
       </LinearGradient>
 
@@ -363,7 +436,7 @@ export default function SignupScreen() {
       >
         <View style={styles.section}>
           <View style={styles.formCard}>
-            {verificationStep === 1 ? renderPhoneInputStep() : renderOtpVerificationStep()}
+            {verificationStep === 1 ? renderRegistrationStep() : renderVerificationStep()}
 
             {/* Login Link */}
             {verificationStep === 1 && (
@@ -396,16 +469,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   headerContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
-  backButton: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
+  backButtonHeader: {
     padding: 8,
   },
   logoContainer: {
     alignItems: 'center',
+    flex: 1,
   },
   logo: {
     width: 80,
@@ -427,6 +500,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     textAlign: 'center',
+  },
+  placeholder: {
+    width: 40,
   },
   scrollView: {
     flex: 1,
@@ -520,7 +596,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
   },
-  // OTP Verification Styles
+  // Verification Styles
   otpHeader: {
     alignItems: 'center',
     marginBottom: 32,
@@ -542,21 +618,29 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#064E3B',
   },
-  otpContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 24,
+  devHelper: {
+    backgroundColor: '#FEF3C7',
+    padding: 12,
+    borderRadius: 8,
+    marginTop: 16,
+    alignItems: 'center',
   },
-  otpInput: {
-    width: 48,
-    height: 48,
-    borderWidth: 2,
-    borderColor: '#E2E8F0',
-    borderRadius: 12,
-    backgroundColor: '#F8FAFC',
-    fontSize: 18,
+  devHelperText: {
+    color: '#92400E',
+    fontSize: 14,
     fontWeight: '600',
-    color: '#064E3B',
+    marginBottom: 8,
+  },
+  autoFillButton: {
+    backgroundColor: '#059669',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 6,
+  },
+  autoFillText: {
+    color: '#FFF',
+    fontSize: 12,
+    fontWeight: '600',
   },
   resendContainer: {
     flexDirection: 'row',

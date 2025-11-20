@@ -1,6 +1,7 @@
 import { ThemedText } from '@/components/themed-text';
 import { Feather, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import React, { useRef, useState } from 'react';
 import {
   Animated,
@@ -20,12 +21,13 @@ export default function HomeScreen() {
   const [activeCard, setActiveCard] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   const balanceVisible = useRef(new Animated.Value(1)).current;
+  const router = useRouter();
 
   const cards = [
     { 
       id: 1, 
       number: 'xxxx xxxx 7812', 
-      balance: 'MWK8,450.75', 
+      balance: 'MKW 10000', 
       type: 'operating', 
       currency: 'MWK',
       crop: 'Corn Harvest'
@@ -33,7 +35,7 @@ export default function HomeScreen() {
     { 
       id: 2, 
       number: 'xxxx xxxx 4523', 
-      balance: 'MWK12,920.30', 
+      balance: 'MKW 10000', 
       type: 'savings', 
       currency: 'MWK',
       crop: 'Soybean Fund'
@@ -41,7 +43,7 @@ export default function HomeScreen() {
     { 
       id: 3, 
       number: 'xxxx xxxx 1897', 
-      balance: 'MWK5,245.50', 
+      balance: 'MKW 10000', 
       type: 'loan', 
       currency: 'MWK',
       crop: 'Equipment Loan'
@@ -54,28 +56,24 @@ export default function HomeScreen() {
       label: 'Loans', 
       color: '#22C55E', 
       description: 'Input & finacial',
-      iconLib: FontAwesome5
-    },
-    { 
-      icon: 'tractor', 
-      label: 'Machinery', 
-      color: '#F59E0B', 
-      description: 'Rent Equipment',
-      iconLib: FontAwesome5
+      iconLib: FontAwesome5,
+      onPress: () => router.push('./services/loans')
     },
     { 
       icon: 'shopping-cart', 
       label: 'Market', 
       color: '#06B6D4', 
       description: 'Online market',
-      iconLib: FontAwesome5
+      iconLib: FontAwesome5,
+      onPress: () => router.push('./services/loans')
     },
     { 
       icon: 'cloud-rain', 
       label: 'Weather', 
       color: '#8B5CF6', 
       description: 'monitoring',
-      iconLib: FontAwesome5
+      iconLib: FontAwesome5,
+      onPress: () => router.push('./services/loans')
     },
     { 
       icon: 'map', 
@@ -89,7 +87,8 @@ export default function HomeScreen() {
       label: 'Insurance', 
       color: '#EF4444', 
       description: 'Risk Protection',
-      iconLib: FontAwesome5
+      iconLib: FontAwesome5,
+      onPress: () => router.push('./services/loans')
     },
   ];
 
@@ -251,7 +250,7 @@ export default function HomeScreen() {
           <ThemedText style={styles.sectionTitle}>Wallet Services</ThemedText>
           <View style={styles.featuresGrid}>
             {agriculturalFeatures.map((item, index) => (
-              <TouchableOpacity key={index} style={styles.featureItem}>
+              <TouchableOpacity key={index} style={styles.featureItem} onPress={item.onPress}>
                 <LinearGradient
                   colors={[`${item.color}15`, `${item.color}08`]}
                   style={[styles.featureIconContainer, { borderColor: `${item.color}20` }]}
